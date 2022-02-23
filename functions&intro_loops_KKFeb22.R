@@ -72,6 +72,7 @@ sq(2)
 # what is 'f' variable now? 
 f
 
+#need to assign it in R
 sq<-function(x = 2)	{
   
   f<-x^2
@@ -81,10 +82,11 @@ sq<-function(x = 2)	{
   # f2
   
   assign("accessible_f", f, envir = .GlobalEnv)
-  
+  return(c(f,f2))
 }
 
 sq(2)
+sq(2)[[1]]
 accessible_f
 f
 
@@ -104,7 +106,7 @@ mylist<-list(rainiscool=c(14,32,9,44), cofeeisdelicious=c(99,144,50,77))
 lapply(mylist, mean) # no quotes, mean = function. 
 lapply(mylist, sd) # no quotes, sd = function. 
 lapply(mylist, mean)[2] # coffeeisdelicious only 
-
+lapply(mylist, sq)
 # but we might want to do something with a table, a step up from a list.  
 # let's find out the median number of star-bellied sneeches on each beach.
 # tapply applies a function to a table:
@@ -144,6 +146,9 @@ colSums(mytable)
 
 # Returns: formatted ggplot. Formatting themes include: axis, text size, label sizes, no gridlines, panel border around the plot
 
+###################################################################################
+### PAG--I COULD USE THIS TO PULL AND PLOT THE ESTIMATES FROM CERTAIN MODELS!!! ###
+###################################################################################
 
 ggformat<-function(plot, title="", y_title, x_title, print=TRUE, size_text = 15){
   
@@ -176,12 +181,12 @@ ggformat<-function(plot, title="", y_title, x_title, print=TRUE, size_text = 15)
 
 
 # 2. how I use  this function
-source("/Users/kristakraskura/Github_repositories/Plots-formatting/ggplot_format.R")
+source("ggplot_format.R")
 # add all the libraries to the a file and can do the same :) 
 # plotting fish heart rate with temperature
 
 
-data<-read.csv("/Users/kristakraskura/Github_repositories/Plots-formatting/abt_example_data.csv")
+data<-read.csv("abt_example_data.csv")
 str(data)
 data$channel<-as.factor(data$channel)
 
@@ -194,7 +199,7 @@ yeyplots <- ggplot(data, aes(x = temp_mean, y = bpm, group=channel, color = chan
   # theme_dark()
   # theme_light()
   # theme_pubclean() # little too clean?
-  # theme_pubr() # looks good, now the names, and size, and maybe even font?
+  #theme_pubr() # looks good, now the names, and size, and maybe even font?
 
 ggformat(yeyplots,
          x_title = expression(Temperature~degree~C),
